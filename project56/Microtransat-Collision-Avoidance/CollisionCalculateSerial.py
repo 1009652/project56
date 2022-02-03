@@ -7,7 +7,11 @@ import serial
 import json
 from pyais import decode_msg, NMEAMessage
 from pyais import exceptions
+from pyais.exceptions import InvalidNMEAMessageException as inme
+from pyais.exceptions import MissingMultipartMessageException as mmme
+import pyais.exceptions as allexceptions
 from pyais.stream import UDPStream
+from pyais.stream import FileReaderStream
 from threading import Thread
 import traceback
 import time
@@ -191,7 +195,7 @@ listThey_y = []
 xoud = []
 youd = []
 h = 0
-ownx,owny = coordsToMeters(4.50,50.5)
+ownx,owny = coordsToMeters(4.30,54.5)
 ownSpeed = 2
 Formula1 = formula(ownx, owny,ownSpeed,1)         #onze boot
 timeInterval = 350
@@ -210,8 +214,16 @@ def getShips():
             msg = msg.strip('\x00\r\n')
             print(msg)
             # time.sleep(10)
-            decoded_msg = decode_msg(msg)   
-
+    #        for message in FileReaderStream("/dev/ttyUSB0"):
+    #            decoded_msg = message.decode()
+            try:
+                decoded_msg = decode_msg(msg)   
+            except (inme,mmme):
+                print("ERROR")
+            except mmme:
+                print("ERROR")
+            except allexceptions:
+                print("SOME error")
             # print(decoded_msg)
             print(decoded_msg)
             if decoded_msg['type'] == 5 or decoded_msg['type'] == 8:
@@ -220,7 +232,8 @@ def getShips():
             else:
                 try:
                     selected_data = [decoded_msg[key] for key in keys]
-                    if(int(selected_data[5]) != 511):
+                    #if(int(selected_data[5]) != 511):
+                    if(1):
                         if selected_data[0] not in ships.keys():
                             print(f"NUMBER OF SHIPS{len(ships)}")
                             shipData.append(selected_data)
@@ -234,7 +247,7 @@ def getShips():
                     print("KeyError")
                     print(traceback.format_exc())
                     print(decoded_msg)
-            print(ships)
+        print(ships)
 
 
 def calculateOtherCoords():
