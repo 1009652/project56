@@ -20,9 +20,9 @@ pico_add_extra_outputs(testPing)
 
 
 
-add_subdirectory(/home/auke/Documents/_git/school/project56/pico/pico-arduino-compat/libs/ping-arduino build-pac-ping-arduino)
+#add_subdirectory(/home/auke/Documents/_git/school/project56/pico/pico-arduino-compat/libs/ping-arduino build-pac-ping-arduino)
 
 
-find_library(Softwareserial)
+#find_library(Softwareserial)
 target_link_libraries(testPing pico_stdlib)
 target_link_libraries(testPing pac-ping-arduino)

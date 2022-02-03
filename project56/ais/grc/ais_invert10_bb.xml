@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<block>
+  <name>Invert 10</name>
+  <key>ais_invert10_bb</key>
+  <category>AIS</category>
+  <import>import ais</import>
+  <make>ais.invert10_bb()</make>
+
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+
+</block>
