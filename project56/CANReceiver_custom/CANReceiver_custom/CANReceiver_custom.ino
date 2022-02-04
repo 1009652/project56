@@ -1,6 +1,8 @@
 // Copyright (c) Sandeep Mistry. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+//CANreceiver code to receive AIS message and concatenate the 8 byte messages received from CAN 
+
 #include <CAN.h>
 
 String received = "";
