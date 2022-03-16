@@ -4,7 +4,7 @@
 #include <CAN.h>
 #include <SoftwareSerial.h>
 
-SoftwareSerial mySerial(10, 11);
+SoftwareSerial mySerial(4, 5);
 
 String input;
 
@@ -16,37 +16,37 @@ void setup() {
   Serial.println("CAN Sender");
 
   // start the CAN bus at 500 kbps
-//  if (!CAN.begin(500E3)) {
-//    Serial.println("Starting CAN failed!");
-//    while (1);
-//  }
+  if (!CAN.begin(500E3)) {
+    Serial.println("Starting CAN failed!");
+    while (1);
+  }
 }
 
 
 void sendMessage(String input){
         
         int datasize = input.length();
-        if(datasize > 9){
+        if(datasize > 8){
           char send[datasize] = {};
           input.toCharArray(send, input.length());
 //          Serial.println(input);
           for(int i = 0; i < input.length(); i = i+8){
-            char send2[9] = {};
+            char send2[8] = {};
             strncpy(send2, send+i, 8);
-//            int datasize = send2.length() + 1;
-//            CAN.beginPacket(0x12);
-//            CAN.write(send2, 7);
-//           
-//            CAN.endPacket();
+            int datasize = send2.length() + 1;
+            CAN.beginPacket(0x12);
+            CAN.write(send2, 8);
+           
+            CAN.endPacket();
             Serial.println(send2);
             delay(100);
           }
         }else{
           char send[datasize] = {};
           input.toCharArray(send,datasize);
-//          CAN.beginPacket(0x12);
-//          CAN.write(send,datasize);
-//          CAN.endPacket();          
+          CAN.beginPacket(0x12);
+          CAN.write(send,datasize);
+          CAN.endPacket();          
         }
 
 
